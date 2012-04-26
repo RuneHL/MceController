@@ -39,17 +39,17 @@ using Microsoft.MediaCenter.Hosting;
 namespace VmcController.AddIn.Commands
 {
 	/// <summary>
-	/// Summary description for MsgBoxRich command.
+	/// Summary description for NotBoxRich command.
 	/// </summary>
     /// 
-	public class MsgBoxRichCmd : ICommand
+	public class NotBoxRichCmd : ICommand
 	{
 
         private DialogClosedCallback dlg;
         private DialogResult m_dlgResult;
         private bool responseReceived = false;
         
-        private static Regex m_regex = new Regex("\"(?<caption>.+?)\"\\s+\"(?<message>.+?)\"\\s+(?<timeout>\\d+)\\s+\"(?<buttoncodes>.+?)\"\\s+\"(?<modal>.+?)\"\\s+\"(?<imagepath>.+?)\"");
+        private static Regex m_regex = new Regex("\"(?<message>.+?)\"\\s+(?<timeout>\\d+)\\s+\"(?<buttoncodes>.+?)\"\\s+\"(?<imagepath>.+?)\"");
         
 
         #region ICommand Members
@@ -60,7 +60,7 @@ namespace VmcController.AddIn.Commands
         /// <returns></returns>
         public string ShowSyntax()
         {
-            return "\"caption\" \"message\" <timeout seconds> \"button codes\" \"modal|nonmodal\" \"imagepath\"";
+            return "\"message\" <timeout seconds> \"button codes\" \"imagepath\"";
         }
 
         /// <summary>
@@ -125,12 +125,10 @@ namespace VmcController.AddIn.Commands
                         imagefile = GetFileInfo.GetNewestImage(imagefile);
                     }
                     
-                    AddInHost.Current.MediaCenterEnvironment.Dialog(
+                    AddInHost.Current.MediaCenterEnvironment.DialogNotification(
                         match.Groups["message"].Value
-                        ,match.Groups["caption"].Value
                         ,buttonArray
                         ,int.Parse(match.Groups["timeout"].Value)
-                        ,match.Groups["modal"].Value == "modal" ? true:false
                         ,"file://" + imagefile
                         ,dlg);
                     

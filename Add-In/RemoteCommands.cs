@@ -82,6 +82,8 @@ namespace VmcController.AddIn
             m_commands.Add("dvdrom", new DvdRomCmd());
             m_commands.Add("msgbox", new MsgBoxCmd());
             m_commands.Add("msgboxrich", new MsgBoxRichCmd());
+            m_commands.Add("notbox", new NotBoxCmd());
+            m_commands.Add("notboxrich", new NotBoxRichCmd());
             m_commands.Add("goto", new NavigateToPage());
             m_commands.Add("announce", new AnnounceCmd());
             m_commands.Add("run-macro", new MacroCmd());
@@ -168,7 +170,7 @@ namespace VmcController.AddIn
             m_commands.Add("=== Reporting Commands: ==========", null);
             m_commands.Add("format", new customCmd());
 
-            m_commands.Add("=== New Commands: ==========", null);
+            m_commands.Add("=== Check Commands: ==========", null);
             m_commands.Add("nit", new NITInfoCmd());
         }
 

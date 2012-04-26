@@ -13,3 +13,8 @@ N:\ontwikkeling\Mce\VmcController\trunk\Win7\MCEState\bin\Release\VmcController.
 N:\ontwikkeling\Mce\VmcController\trunk\Win7\MCEState\bin\Release\VmcController.Services.pdb
 N:\ontwikkeling\Mce\VmcController\trunk\Win7\MCEState\obj\Release\ResolveAssemblyReference.cache
 N:\ontwikkeling\Mce\VmcController\trunk\Win7\MCEState\obj\Release\VmcController.MceState.dll
+C:\Temp\MceController\MCEState\bin\Release\VmcController.MceState.dll
+C:\Temp\MceController\MCEState\bin\Release\VmcController.Services.dll
+C:\Temp\MceController\MCEState\bin\Release\VmcController.Services.pdb
+C:\Temp\MceController\MCEState\obj\Release\ResolveAssemblyReference.cache
+C:\Temp\MceController\MCEState\obj\Release\VmcController.MceState.dll

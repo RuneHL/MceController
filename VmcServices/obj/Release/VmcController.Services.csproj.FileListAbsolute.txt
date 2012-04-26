@@ -13,3 +13,8 @@ N:\ontwikkeling\Mce\VmcController\trunk\Win7\VmcServices\bin\Release\VmcControll
 N:\ontwikkeling\Mce\VmcController\trunk\Win7\VmcServices\obj\Release\ResolveAssemblyReference.cache
 N:\ontwikkeling\Mce\VmcController\trunk\Win7\VmcServices\obj\Release\VmcController.Services.dll
 N:\ontwikkeling\Mce\VmcController\trunk\Win7\VmcServices\obj\Release\VmcController.Services.pdb
+C:\Temp\MceController\VmcServices\bin\Release\VmcController.Services.dll
+C:\Temp\MceController\VmcServices\bin\Release\VmcController.Services.pdb
+C:\Temp\MceController\VmcServices\obj\Release\ResolveAssemblyReference.cache
+C:\Temp\MceController\VmcServices\obj\Release\VmcController.Services.dll
+C:\Temp\MceController\VmcServices\obj\Release\VmcController.Services.pdb
