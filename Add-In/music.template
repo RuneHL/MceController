@@ -1,0 +1,213 @@
+// Output templates - THIS FILE MUST BE PLACED IN THE EHOME DIRECTORY TO BE USED!! (Usually c:\windows\ehome\)
+// ================
+// Forms are: 
+//      x.Artist+<tab>Format
+//      x.Artist-<tab>Format
+//      x.Album+<tab>Format
+//      x.Album-<tab>Format
+//      x.Alpha+<tab>Format
+//      x.Alpha-<tab>Format
+//      x.Entry<tab>Format
+//      x.H<tab>Format
+//      x.F<tab>Format
+//      x.C<tab>Format
+//
+// Where:
+// x is the name of the custom format
+// H means header of list output (the only substitution allowed is %resultCount%)
+// F means footer on list output
+// + means start of entry type
+// - means after type (e.g. between artists)
+// C means not cached - A second footer that is not cached (the only substitutions allowed are %wasCached% and %elapsedTime%)
+// 
+// Alpha+/- only applies to sorted lists - artists, albums, songs, details (sorted by artist) - and is applied when the first character of the sorting value changes
+//    Only 
+//    e.g. between Abba and The Beattles
+//
+// Which commands use which templates:
+// music-list-details - uses all the above templates (x.Entry is for each song, x.Alpha is based on the artist name)
+// music-list-artists - uses only the x.H, x.F, x.C, x.Alpha and xEntry templates (x.Entry is for each artist) Only %song% and %index% substitutions allowed!
+// music-list-albums - uses only the x.H, x.F, x.C, x.Alpha and xEntry templates (x.Entry is for each album)
+// music-list-songs - uses only the x.H, x.F, x.C, x.Alpha and xEntry templates (x.Entry is for each song)
+// music-list-genre - uses only the x.H, x.F, x.C, x.Alpha and xEntry templates (x.Entry is for each genre)
+// music-list-recent - uses only the x.H, x.F, and xEntry templates (x.Entry is for each recently played / queued command)
+// music-stats - uses only the x.H, x.F, x.C and xEntry templates (x.Entry is for the stats)
+// music-cover / music-play / music-queue - use no templates
+//
+// Available substitutions for each command: (Note not all substitutions make sense in all places)
+//
+// music-list-details:
+//   %file-include%<filename and path>%endfile% - includes the specified file into the output
+//   %all_filters% - All the parameters that were used for this search
+//   %index% - the index into the current result set of the current media item (track)
+//   %artist% - The name of the current artist
+//   %artistFilter% - The text of the used artist filter 
+//   %nextArtist% - The next artist (only valid for "x.Artist-" entries, otherwise it's the same as artist)
+//   %artistTrackCount% - number of tracks found for the artist so far (should be total for "x.Artist-" entries)
+//   %artistAlbumCount% - number of albums found for the artist so far (should be total for "x.Artist-" entries)
+//   %artistAlbumList% - comma separated list of album titles found for the artist so far (should be total for "x.Artist-" entries)
+//   %artistCount% - number of matching artists found so far (should be total for x.F entries)
+//   %album% - The title of the current album
+//   %albumFilter% - The text of the used album filter 
+//   %nextAlbum% - The next album (only valid for "x.Album-" entries, otherwise it's the same as album)
+//   %albumTrackCount% - the current matching track in the album (should be total tracks for "x.Album-" entres)
+//   %albumYear% - The album year (first found)
+//   %albumGenre% - The album genre(s) (multiple results possible, comma separated)
+//   %albumImage% - The album image (first found)
+//   %song% - The current track title
+//   %genre% - The Genre of the current track title
+//   %genreFilter% - The text of the used genre filter 
+//   %songPath% - The path to the song file
+//   %songTrackNumber% - The track number on the original album
+//   %songLength% - length of song
+//   %trackCount% - the number of matching tracks found (should be total for "x.F" entries)
+//   %albumCount% - the number of matching albums found (should be total for "x.F" entries)
+//   %wasCached% - True or False. Only  available in the un-cached 2nd Footer ("x.C" entries)
+//   %elapsedTime% - How long the comand took to complete in seconds. Only  available in the un-cached 2nd Footer ("x.C" entries)
+//
+// music-list-artists:
+//   %file-include%<filename and path>%endfile% - includes the specified file into the output
+//   %artist% - The current artist name
+//   %letter% - The first letter of the current artist name
+//   %all_filters% - All the parameters that were used for this search
+//   %artistFilter% - The text of the used artist filter 
+//   %albumFilter% - The text of the used album filter 
+//   %genreFilter% - The text of the used genre filter 
+//   %resultCount% - The number of matching artists found.
+//   %wasCached% - True or False. Only  available in the un-cached 2nd Footer ("x.C" entries)
+//   %elapsedTime% - How long the comand took to complete in seconds. Only  available in the un-cached 2nd Footer ("x.C" entries)
+//
+// music-list-albums:
+//   %file-include%<filename and path>%endfile% - includes the specified file into the output
+//   %album% - The current album title
+//   %letter% - The first letter of the current album name
+//   %all_filters% - All the parameters that were used for this search
+//   %artistFilter% - The text of the used artist filter 
+//   %albumFilter% - The text of the used album filter 
+//   %genreFilter% - The text of the used genre filter 
+//   %resultCount% - The number of matching albums found
+//   %wasCached% - True or False. Only  available in the un-cached 2nd Footer ("x.C" entries)
+//   %elapsedTime% - How long the comand took to complete in seconds. Only  available in the un-cached 2nd Footer ("x.C" entries)
+//
+// music-list-songs:
+//   %file-include%<filename and path>%endfile% - includes the specified file into the output
+//   %index% - the index into the current result set of the current media item (track)
+//   %letter% - The first letter of the current song title
+//   %song% - The current track title
+//   %resultCount% - The number of matching songs found
+//   %all_filters% - All the parameters that were used for this search
+//   %artistFilter% - The text of the used artist filter 
+//   %albumFilter% - The text of the used album filter 
+//   %genreFilter% - The text of the used genre filter 
+//   %wasCached% - True or False. Only  available in the un-cached 2nd Footer ("x.C" entries)
+//   %elapsedTime% - How long the comand took to complete in seconds. Only  available in the un-cached 2nd Footer ("x.C" entries)
+//
+// music-list-genre:
+//   %file-include%<filename and path>%endfile% - includes the specified file into the output
+//   %genre% - The current genre
+//   %letter% - The first letter of the current genre
+//   %all_filters% - All the parameters that were used for this search
+//   %artistFilter% - The text of the used artist filter 
+//   %albumFilter% - The text of the used album filter 
+//   %genreFilter% - The text of the used genre filter 
+//   %resultCount% - The number of matching genres found.
+//   %wasCached% - True or False. Only  available in the un-cached 2nd Footer ("x.C" entries)
+//   %elapsedTime% - How long the comand took to complete in seconds. Only  available in the un-cached 2nd Footer ("x.C" entries)
+//
+// music-list-recent:
+//   %file-include%<filename and path>%endfile% - includes the specified file into the output
+//   %full_type% - What the action was one or more of: [Artist][Album][Genre][Tracks] (e.g. Artist Name/Album Name)
+//   %type% - What the most specific action was one of: [Artist][Album][Genre][Tracks] (e.g. Album Name)
+//   %title% - the most specific thing played - could be All, the Artist, the Genre, or the Track Title(s)
+//   %description% - A friendly version of what was played - could be Artist:Album:Track title 1, Track title 2...
+//   %param% - The parameters that were played (this appened to music-play or music-queue would repeat the command)
+//   %trackCount% - How many tracks were played by the command
+//   %index% - the index into the result set
+//
+// music-stats:
+//   %file-include%<filename and path>%endfile% - includes the specified file into the output
+//   %track_count% - The number of music tracks in the collection
+//   %artist_count% - The number of music artists in the collection
+//   %albums_count% - The number of albums in the collection
+//   %genre_count% - The music genres in the collection
+//   %cache_age% - The date / time the current cache was started
+//   %available_templates% - A comma separated list of template names (defined here)
+//
+// Escaped characters: \r\n will be converted to crlf (newline); \t will be converted to a tab character
+
+// Example custom list that shows the defaults
+//     Example usage: music-list-details template:defs
+//     Example url: http://server:port/music-list-details%20template:defs
+//        This would show a listing for every audio track in the media collection
+//     Example usage: music-list-details template:defs artist:"The Who"
+//        This would show a listing for every audio track in the media collection with an artist name that starts with "the who"
+defs.H		Everything list - %resultCount% tracks found:\r\n
+defs.Artist+	artist:%artist%
+defs.Album+		     album:%album% (%albumYear%; %albumGenre%)
+defs.Album-		          total album tracks:%albumTrackCount%
+defs.Entry		          %if-songTrackNumber%track:%songTrackNumber%. %endif%song:%song% (%songLength%)
+defs.Artist-	     total artist albums:%artistAlbumCount%; total artist tracks:%artistTrackCount%\r\n
+defs.F		Library Summary:\r\n  Total Artists: %artistCount%\r\n  Total Albums: %albumCount%\r\n  Total tracks: %trackCount%
+defs.C		Page Summary:\r\n  Rendered from Cache?: %wasCached%\r\n  Render time: %ellapsedTime% seconds
+
+// Custom html page - artist list to browse to artists album list
+//     Example usage: music-list-details template:artist_list
+//     Example url: http://server:port/music-list-details%20template:artist_list
+artist_list.H	<html><body><table width="100%" style="font-family:Arial; border:solid black 1px; background:#C0C0C0;"><tr><td valign="middle" colspan=2><font size+=2>Complete Artist List</font></td></tr></table><p>
+artist_list.Artist+	
+artist_list.Album+	  
+artist_list.Entry	  
+artist_list.Album-	
+artist_list.Artist-	<table width="100%" onclick="this.style.background='#ffff55'; window.location.href='music-list-details%20template:artist_browse%20exact_artist:%22%artist%%22'" style="font-family:Arial; border:solid black 1px;"><tr><td valign="bottom"><img src="music-cover%20exact_artist:%22%artist%%22%20size-x:75%20size-y:75%20.jpg" /></td><td width="100%" valign="top"><B>%artist%</B><font size=-1><br>%artistTrackCount% Tracks / %artistAlbumCount% Albums<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%artistAlbumList%</font></td></tr></table><p>
+artist_list.F	<table width="100%" style="font-family:Arial; border:solid black 1px; background:#C0C0C0;"><tr><td valign="middle" colspan=2><font size+=2>Totals: %artistCount% Artist / %albumCount% Albums / %trackCount% Tracks
+artist_list.C	<br>Elapsed time: %ellapsedTime% seconds; Rendered from Cache?: %wasCached%</font></td></tr></table><p></body></html>
+
+// Custom html album and song list based on an artist name
+//     Example usage: music-list-details template:artist_browse exact_artist:"the red hot chili peppers"
+//     Example url: http://server:port/music-list-details%20template:artist_browse%20exact_artist:%22the%20red%20hot%20chili%20peppers%22
+//        This would show a listing for every song by the Red Hot Chili Peppers artist sorted by ablbum 
+artist_browse.H	<html><head><script LANGUAGE="JavaScript">var albumHighlight = null;function playAlbum(obj, artist, album, queue){albumHighlight = obj;albumHighlight.style.background='#ffff55'; if (queue) target.location="music-queue%20exact_artist:%22" + artist + "%22%20exact_album:%22" + album + "%22"; else target.location="music-play%20exact_artist:%22" + artist + "%22%20exact_album:%22" + album + "%22"; setTimeout("resetAlbumHighlight()", 500);} function playSong(obj, index, queue){albumHighlight = obj;albumHighlight.style.background='#ffff55'; if (queue) target.location="music-queue%20%all_filters%%20indexes:"+index; else target.location="music-queue%20%all_filters%%20indexes:"+index; setTimeout("resetAlbumHighlight()", 500);} function resetAlbumHighlight () { albumHighlight.style.background='';albumHighlight = null;}</script></head><body><iframe id="target" style="display:none;">X</iframe>
+artist_browse.Artist+	
+artist_browse.Album+	<table style="width:100%; display:inline-block; font-family:Arial; border-spacing:0px 2px;"><tr><td colspan=2 align=center style="border:1px solid black;background:#C0C0C0;"><font size=+2>%album%</font></td></tr><tr><td valign="top" style="width:210px; " align=center><table border=0 width=210 style="border-spacing:4px 4px;"><tr><td colspan=3 align=center style="border:1px solid black"><img src="music-cover%20%all_filters%%20indexes:%index%%20size-x:200%20size-y:200%20.jpg" /></tr><tr><td bgcolor='#C0C0C0' align=center style="height:50px; border:1px black solid; width:33%" onclick="window.location.href='#%artistAlbumCount%'">Next<br>Album</td><td bgcolor='#C0C0C0' align=center style="width:34%; border:1px black solid" onclick="playAlbum(this, %index%, 0)"> Play <br>Album</td><td bgcolor='#C0C0C0' align=center style="width:33%; border:1px black solid" onclick="playAlbum(this, %index%, 1)"> Queue <br>Album</A></td></tr></table></td><td colspan=3 valign="top" style="width:95%; border:none;">
+artist_browse.Entry	<table width=100% cellpadding=5 style="border-spacing:5px 2px;"><tr bgcolor='#FFFFC0'><td onclick="playSong(this, %index%, false)" align=center style="width:40px; height:40px; border:1px black solid"> P </td><td onclick="playSong(this, %index%, true)" align=center style="width:40px; height:40px; border:1px black solid">Q</td><td onclick="playSong(this, %index%, true)" style="height:40px; border:1px black solid;">%if-songTrackNumber%<B>%songTrackNumber%.</B> %endif%%song%</td></tr></table>
+artist_browse.Album-	</td></tr></table><P><a name="%artistAlbumCount%"><BR></A>
+artist_browse.Artist-	
+artist_browse.F		<hr>
+artist_browse.C		Rendered from Cache?: %wasCached%; Elapsed time: %ellapsedTime% seconds</body></html>
+
+// Custom artist list with Alphabet dividers
+//     Example usage: music-list-artists template:alpha
+//     Example url: http://server:port/music-list-artists%20template:alpha
+//        This would show a listing of all artists with alabet dividers 
+alpha.H		Artists list - %resultCount% artists found:\r\n
+alpha.Entry	%index%. %artist%
+alpha.Alpha+	START: --%letter%--
+alpha.Alpha-	END: --%letter%--\r
+alpha.C	Page Summary:\r\n  Rendered from Cache?: %wasCached%\r\n  Render time: %ellapsedTime% seconds
+
+// Custom album list with Alphabet dividers
+//     Example usage: music-list-albums template:alpha_album
+//     Example url: http://server:port/music-list-albums%20template:alpha_album
+//        This would show a listing of all albums with alabet dividers 
+//     Example usage: music-list-albums template:alpha_album artist:abba
+//     Example url: http://server:port/music-list-albums%20template:alpha_album%20artist:abba
+//        This would show a listing of all albums with alabet dividers by any artists starting with "Abba"
+alpha_album.H		Album list - albums found: %resultCount%\r\n
+alpha_album.Entry	%index%. %album%
+alpha_album.Alpha+	START: --%letter%--
+alpha_album.Alpha-	END: --%letter%--\r
+alpha_album.C	Page Summary:\r\n  Rendered from Cache?: %wasCached%\r\n  Render time: %ellapsedTime% seconds
+
+// Custom song list with Alphabet dividers
+//     Example usage: music-list-songs template:alpha_song
+//     Example url: http://server:port/music-list-songs%20template:alpha_song
+//        This would show a listing of all songs with alabet dividers 
+//     Example usage: music-list-songs template:alpha_song exact_artist:"the red hot chili peppers"
+//     Example url: http://server:port/music-list-songs%20template:alpha_song%20exact_artist:%22the%20red%20hot%20chili%20peppers%22
+//        This would show a listing of all songs with alabet dividers by "the red hot chili peppers"
+alpha_song.H		Song list - songs found: %resultCount% \r\n
+alpha_song.Entry	%index%. %song%
+alpha_song.Alpha+	START: --%letter%--
+alpha_song.Alpha-	END: --%letter%--\r
+alpha_song.C	Page Summary:\r\n  Rendered from Cache?: %wasCached%\r\n  Render time: %ellapsedTime% seconds
+

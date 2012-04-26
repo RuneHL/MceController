@@ -1,0 +1,49 @@
+// custom templates - THIS FILE MUST BE PLACED IN THE EHOME DIRECTORY TO BE USED!! (Usually c:\windows\ehome\)
+// ================
+// Form is:
+//      format_name<tab>Format
+//
+//
+// Available substitutions:
+//
+// Single Values:
+// %version% - the version of Media Center
+// %position% - The current position of the playing media (returns 'No Media Playing' if not available)
+// %playrate% - The current play speed of the playing media (returns 'No Media Playing' if not available)
+// %playstate% - The current play state of the playing media (returns 'No Media Playing' if not available)
+//
+// Collections:
+// %mediametadata%xxx% - Depends on the current media experience
+//    Possible entries (xxx) available for a given context:
+//        album: AlbumArtist, AlbumName, Genre, Label, ReleaseDate
+//        artist: Artist
+//        genre: Genre
+//        playlist: Name, URL
+//        song: AlbumArtist, AlbumTitle, Genre, Label, ProductionCompany, ReleaseDate, TrackArtist, TrackComposer, TrackDuration, TrackNumber, TrackTitle
+//        DVD: ChapterTitle, Director, Duration, MPAARating, ProductionCompany, ReleaseDate, Title
+//        video: Duration, MPAARating, Title
+//        picture: Name
+// %capabilites%xxx% - Can vary
+//    Possible entries can include (but are not limited to): directx, audio, video, intensiverendering, console, cdburning
+//
+// Escaped characters: \r\n will be converted to crlf (newline); \t will be converted to a tab character
+//
+//
+// Notes: 
+//    1. If the requested template is not found (or not specified) all currently available substitutions will be listed with their values (this is a good way to see what's available when)
+//    2. Unmatches substitutions will return an empty string - so for example: "%bogus%b%", "%bogus%", and "%mediametadata%artist%"
+//        While watching a dvd: "", "", and ""
+//        While listening to a song: "", "", and "The Artist Name"
+//	
+// Example
+//    NowPlaying	Now Playing: %mediametadata%TrackTitle%%mediametadata%TrackTitle%Title% - %playstate% at %position% seconds (Length %mediametadata%TrackDuration%%mediametadata%Duratione% seconds)
+//    The above template will resolve to:
+//        While watching a dvd: "Now Playing: The Movie Title - Playing at 234 seconds (Length 12345 seconds)
+//            %mediametadata%TrackTitle% and %mediametadata%TrackDuration% both resolve to empty strings
+//        While listening to a CD track: "Now Playing: Song Title - Paused at 47 seconds (Length 182 seconds)
+//            %mediametadata%Title% and %mediametadata%Duration% both resolve to empty strings
+//     
+
+NowPlaying	Now Playing: %mediametadata%TrackTitle%%mediametadata%TrackTitle%Title% - %playstate% at %position% seconds (Length %mediametadata%TrackDuration%%mediametadata%Duratione% seconds)
+
+test	<u>Bogus:</u><br>[%bogus%b_1%]: Blank<br>[%bogus%]: Blank<br><br><u>Capabilities:</u><br>%capabilites%test_1%: 1<br>%capabilites%test_2%: 2<br>%capabilites%test_3%: 3<br><br><u>Version:</u><br>%version%: 0.0.0.0<br><br><u>MediaMetaData:</u><br>%mediametadata%test_1%: 1<br>%mediametadata%test_2%: 2<br>%mediametadata%test_3%: 3<br><br><u>PlayRate:</u><br>%playrate%: Test<br><br><u>PlayState:</u><br>%playstate%: No Media Playing<br><br><u>Position:</u><br>%position%: -123<br>

@@ -1,0 +1,15 @@
+C:\Data\C#\VmcController\VmcController\VmcServices\bin\Release\VmcController.Services.dll
+C:\Data\C#\VmcController\VmcController\VmcServices\bin\Release\VmcController.Services.pdb
+C:\Data\C#\VmcController\VmcController\VmcServices\obj\Release\ResolveAssemblyReference.cache
+C:\Data\C#\VmcController\VmcController\VmcServices\obj\Release\VmcController.Services.dll
+C:\Data\C#\VmcController\VmcController\VmcServices\obj\Release\VmcController.Services.pdb
+C:\Data\C#\VmcController\trunk\Win7\VmcServices\bin\Release\VmcController.Services.dll
+C:\Data\C#\VmcController\trunk\Win7\VmcServices\bin\Release\VmcController.Services.pdb
+C:\Data\C#\VmcController\trunk\Win7\VmcServices\obj\Release\ResolveAssemblyReference.cache
+C:\Data\C#\VmcController\trunk\Win7\VmcServices\obj\Release\VmcController.Services.dll
+C:\Data\C#\VmcController\trunk\Win7\VmcServices\obj\Release\VmcController.Services.pdb
+N:\ontwikkeling\Mce\VmcController\trunk\Win7\VmcServices\bin\Release\VmcController.Services.dll
+N:\ontwikkeling\Mce\VmcController\trunk\Win7\VmcServices\bin\Release\VmcController.Services.pdb
+N:\ontwikkeling\Mce\VmcController\trunk\Win7\VmcServices\obj\Release\ResolveAssemblyReference.cache
+N:\ontwikkeling\Mce\VmcController\trunk\Win7\VmcServices\obj\Release\VmcController.Services.dll
+N:\ontwikkeling\Mce\VmcController\trunk\Win7\VmcServices\obj\Release\VmcController.Services.pdb

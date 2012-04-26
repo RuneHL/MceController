@@ -1,0 +1,115 @@
+// Output templates - THIS FILE MUST BE PLACED IN THE EHOME DIRECTORY TO BE USED!! (Usually c:\windows\ehome\)
+// ================
+// Forms are: 
+//      x.y+<tab>Format
+//      x.y-<tab>Format
+//      xH<tab>Format
+//      xF<tab>Format
+//
+// Where:
+// x is list type
+// y is object change id
+// H means header of list output
+// F means footer on list output
+// + means start of entry type
+// - means after Entry (i.e. between entries)
+//
+// Built in list formats that can be overridden:
+// 1 - list-artists
+// 3 - list-artist-albums / list-albums
+// 5 - list-artist-songs
+// 7 - list-album-songs
+// custom lists are specified with integers > 100
+//
+// Entry type:
+// 1 - Artist list 
+// 2 - Album
+// 4 - Track (song) - Note no diffence between x.4+ and x.4-
+//
+// Available substitutions:
+// %idx% - the index of the current media item (track)
+// %artist% - The name of the current artist
+// %nextArtist% - The next artist (only valid for "x.1-" entries, otherwise it's the same as artist)
+// %artistIndex% - Index of the first track for the current artist
+// %artistTrackCount% - number of tracks found for the artist so far (should be total for "x.1-" entries)
+// %artistAlbumCount% - number of albums found for the artist so far (should be total for "x.1-" entries)
+// %artistAlbumList% - comma separated list of album titles found for the artist so far (should be total for "x.1-" entries)
+// %artistCount% - number of matching artists found so far (should be total for xF entries)
+// %album% - The title of the current album
+// %nextAlbum% - The next album (only valid for "x.2-" entries, otherwise it's the same as album)
+// %albumIndex% - Index of the first track for the current album (should be the same as %idx% for "x.2+" entries)
+// %albumTrackCount% - the current matching track in the album (should be total tracks for "x.2-" entres)
+// %albumYear% - The album year (first found)
+// %albumGenre% - The album genre(s) (multiple results possible, comma separated)
+// %albumImage% - The album image (first found)
+// %song% - The current track title
+// %songPath% - The path to the song file
+// %songTrackNumber% - The track number on the original album
+// %songLength% - length of song
+// %trackCount% - the number of matching tracks found (should be total for "xF" entries)
+// %albumCount% - the number of matching albums found (should be total for "xF" entries)
+//
+// Escaped characters: \r\n will be converted to crlf (newline); \t will be converted to a tab character
+
+// Example custom list that shows pretty much everything
+//     Example usage: list-all-custom -100
+//        This would show a listing for every audio track in the media collection
+//     Example usage: list-all-custom -100 The Who
+//        This would show a listing for every audio track in the media collection with an artist name that starts with "the who"
+100H	Complete Everything list:
+100.1+	\r\nArtist <%artistIndex%>: %artist%
+100.2+	  Album <%albumIndex%>: %album% by %artist%
+100.4+	    Track %songTrackNumber%. "%song%" (%songLength%) <%idx%> (%songPath%)
+100.4-	
+100.2-	    Album summary: %album% (<%albumIndex%>) had %albumTrackCount% songs\r\n      Year: %albumYear%; Genre: %albumGenre%\r\n      Cover: %albumImage%
+100.1-	  Arist Summary: %artist% (<%artistIndex%>) had %artistTrackCount% songs and %artistAlbumCount% albums\r\n    Album list: %artistAlbumList%
+100F	Library Summary:\r\n  Total Artists: %artistCount%\r\n  Total Albums: %albumCount%\r\n  Total tracks: %trackCount%
+
+// Cusom artist list to fill an option box
+//     Example usage: list-all-custom -102
+102H	
+102.1+	
+102.2+	  
+102.4+	  
+102.4-	
+102.2-	
+102.1-	<OPTION>%artist%---!!!%artistTrackCount% tracks; %artistAlbumCount% albums: %artistAlbumList%<%artistIndex%></OPTION>
+102F	
+
+// Cusom html page - album list based on an artist index
+//     Example usage: list-artist-custom -111 <1>
+//     Example url: http://server/list-artist-custom%20-111%20<1>
+//        This would show a listing for every album by the first artist
+111H	<html><head><script LANGUAGE="JavaScript">var albumHighlight = null;function playAlbum(obj, index, queue){albumHighlight = obj;albumHighlight.style.background='#ffff55'; target.location="play-audio-album%20<"+index+">"; setTimeout("resetAlbumHighlight()", 500);} function resetAlbumHighlight () { albumHighlight.style.background='';albumHighlight = null;}</script></head><body><iframe id="target" style="display:none;">X</iframe>
+111.1+	
+111.2+	  
+111.4+	  
+111.4-	
+111.2-	<table width="33%" onclick="playAlbum(this, %albumIndex%, 0)"  style="display:inline-block; font-family:Arial"><tr><td valign="bottom"><img src="http://ztesch.fi/albumart/get.php?artist=%artist%&album=%album%&reget=1&resize=75" style="width:75px;height:75px;" /></td><td width="100%" valign="top"><B>%album%</B><font size=-1><br>%albumYear%<br>%albumTrackCount% Tracks<br>%albumGenre%</font></td></tr></table>
+111.1-	
+111F		</body></html>
+
+// Cusom html pge - artist list to browse to artists album list
+//     Example usage: list-all-custom -112
+//     Example url: http://server/list-all-custom%20-112
+112H	<html><body><table width="100%" style="font-family:Arial; border:solid black 1px; background:#C0C0C0;"><tr><td valign="middle" colspan=2><font size+=2>Complete Artist List</font></td></tr></table><p>
+112.1+	
+112.2+	  
+112.4+	  
+112.4-	
+112.2-	
+112.1-	<table width="100%" onclick="this.style.background='#ffff55'; window.location.href='list-artist-custom%20-115%20<%artistIndex%>'" style="font-family:Arial; border:solid black 1px;"><tr><td valign="bottom"><img src="http://ztesch.fi/albumart/get.php?artist=%artist%&album=%20&reget=1&resize=75" style="width:75px;height:75px;" /></td><td width="100%" valign="top"><B>%artist%</B><font size=-1><br>%artistTrackCount% Tracks / %artistAlbumCount% Albums<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;%artistAlbumList%</font></td></tr></table><p>
+112F	<table width="100%" style="font-family:Arial; border:solid black 1px; background:#C0C0C0;"><tr><td valign="middle" colspan=2><font size+=2>Totals: %artistCount% Artist / %albumCount% Albums / %trackCount% Tracks</font></td></tr></table><p></body></html>
+
+// Cusom html album and song list based on an artist index
+//     Example usage: list-artist-custom -115 <1>
+//     Example url: http://server/list-artist-custom%20-115%20<1>
+//        This would show a listing for every song by the first artist sorted by ablbum 
+115H	<html><head><script LANGUAGE="JavaScript">var albumHighlight = null;function playAlbum(obj, index, queue){albumHighlight = obj;albumHighlight.style.background='#ffff55'; if (queue) target.location="queueaudio-album%20<"+index+">"; else target.location="play-audio-album%20<"+index+">"; setTimeout("resetAlbumHighlight()", 500);} function playSong(obj, index, queue){albumHighlight = obj;albumHighlight.style.background='#ffff55'; if (queue) target.location="queueaudio-song%20<"+index+">"; else target.location="play-audio-song%20<"+index+">"; setTimeout("resetAlbumHighlight()", 500);} function resetAlbumHighlight () { albumHighlight.style.background='';albumHighlight = null;}</script></head><body><iframe id="target" style="display:none;">X</iframe>
+115.1+	
+115.2+	<table style="width:100%; display:inline-block; font-family:Arial; border-spacing:0px 2px;"><tr><td colspan=2 align=center style="border:1px solid black;background:#C0C0C0;"><font size=+2>%album%</font></td></tr><tr><td valign="top" style="width:210px; " align=center><table border=0 width=210 style="border-spacing:4px 4px;"><tr><td colspan=3 align=center style="border:1px solid black"><img src="http://ztesch.fi/albumart/get.php?artist=%artist%&album=%album%&reget=1&resize=200" style="width:200px;height:200px;" /></tr><tr><td bgcolor='#C0C0C0' align=center style="height:50px; border:1px black solid; width:33%" onclick="window.location.href='#%artistAlbumCount%'">Next<br>Album</td><td bgcolor='#C0C0C0' align=center style="width:34%; border:1px black solid" onclick="playAlbum(this, %idx%, 0)"> Play <br>Album</td><td bgcolor='#C0C0C0' align=center style="width:33%; border:1px black solid" onclick="playAlbum(this, %idx%, 1)"> Queue <br>Album</A></td></tr></table></td><td colspan=3 valign="top" style="width:95%; border:none;">
+115.4+	<table width=100% cellpadding=5 style="border-spacing:5px 2px;"><tr bgcolor='#FFFFC0'><td onclick="playSong(this, %idx%, false)" align=center style="width:40px; height:40px; border:1px black solid"> P </td><td onclick="playSong(this, %idx%, true)" align=center style="width:40px; height:40px; border:1px black solid">Q</td><td onclick="playSong(this, %idx%, true)" style="height:40px; border:1px black solid;"><B>%songTrackNumber%.</B> %song%</td></tr></table>
+115.4-	
+115.2-	</td></tr></table><P><a name="%artistAlbumCount%"><BR></A>
+115.1-	
+115F		</body></html>

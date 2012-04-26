@@ -1,0 +1,51 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual C# Express 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VmcController.MceState", "MCEState\VmcController.MceState.csproj", "{7D37C059-F3D2-40E8-AB94-99BA49E7E5B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VmcController.Add-In", "Add-In\VmcController.Add-In.csproj", "{E462FADD-D3B3-436A-8966-E8D6289AAB15}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VmcController.Services", "VmcServices\VmcController.Services.csproj", "{535578F2-B5EF-4B14-83BB-E5FDB4B8A727}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Description = Media Center Network Controller
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D37C059-F3D2-40E8-AB94-99BA49E7E5B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D37C059-F3D2-40E8-AB94-99BA49E7E5B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D37C059-F3D2-40E8-AB94-99BA49E7E5B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D37C059-F3D2-40E8-AB94-99BA49E7E5B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E462FADD-D3B3-436A-8966-E8D6289AAB15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E462FADD-D3B3-436A-8966-E8D6289AAB15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E462FADD-D3B3-436A-8966-E8D6289AAB15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E462FADD-D3B3-436A-8966-E8D6289AAB15}.Release|Any CPU.Build.0 = Release|Any CPU
+		{535578F2-B5EF-4B14-83BB-E5FDB4B8A727}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{535578F2-B5EF-4B14-83BB-E5FDB4B8A727}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{535578F2-B5EF-4B14-83BB-E5FDB4B8A727}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{535578F2-B5EF-4B14-83BB-E5FDB4B8A727}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 5
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://tfs06.codeplex.com/
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = Add-In\\VmcController.Add-In.csproj
+		SccProjectName1 = Add-In
+		SccLocalPath1 = Add-In
+		SccProjectUniqueName2 = MCEState\\VmcController.MceState.csproj
+		SccProjectName2 = MCEState
+		SccLocalPath2 = MCEState
+		SccProjectUniqueName3 = Setup\\Setup.vdproj
+		SccProjectName3 = Setup
+		SccLocalPath3 = Setup
+		SccProjectUniqueName4 = VmcServices\\VmcController.Services.csproj
+		SccProjectName4 = VmcServices
+		SccLocalPath4 = VmcServices
+	EndGlobalSection
+EndGlobal
