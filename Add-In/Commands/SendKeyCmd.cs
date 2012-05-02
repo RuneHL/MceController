@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007 Jonathan Bradshaw
+ * Copyright (c) 2007 Jonathan Bradshaw / 2012 Gert-Jan Niewenhuijse
  * 
  * This software is provided 'as-is', without any express or implied warranty. 
  * In no event will the authors be held liable for any damages arising from the use of this software.
@@ -15,9 +15,6 @@
  * 
  */
 using System;
-using System.Text.RegularExpressions;
-using Microsoft.MediaCenter;
-using Microsoft.MediaCenter.Hosting;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 
@@ -100,19 +97,10 @@ namespace VmcController.AddIn.Commands
         public OpResult Execute(string param)
         {
             OpResult opResult = new OpResult();
-            NativeMethods.INPUT structInput;
-            structInput = new NativeMethods.INPUT();
-            structInput.type = NativeMethods.INPUT_KEYBOARD;
-            structInput.ki.wScan = 0;
-            structInput.ki.time = 0;
-            structInput.ki.dwFlags = 0;
-            structInput.ki.dwExtraInfo = IntPtr.Zero;
 
             try
             {
-                while (NativeMethods.SetForegroundWindow(GetWindowHandle()) == false)
-                {}
-                if (NativeMethods.SetForegroundWindow(GetWindowHandle()) == false)
+                if (!GetWindowHandleWrapper())
                 {
                     opResult.StatusCode = OpStatusCode.BadRequest;
                     return opResult;
@@ -120,50 +108,40 @@ namespace VmcController.AddIn.Commands
 
                 if (Shift)
                 {
-                    structInput.ki.wVk = 0x10;
-                    NativeMethods.SendInput(1, ref structInput, Marshal.SizeOf(structInput));
+                    NativeMethods.SendKeyDown(0x10);
                 }
                 if (Ctrl)
                 {
-                    structInput.ki.wVk = 0x11;
-                    NativeMethods.SendInput(1, ref structInput, Marshal.SizeOf(structInput));
+                    NativeMethods.SendKeyDown(0x11);
                 }
                 if (Alt)
                 {
-                    structInput.ki.wVk = 0x12;
-                    NativeMethods.SendInput(1, ref structInput, Marshal.SizeOf(structInput));
+                    NativeMethods.SendKeyDown(0x12);
                 }
                 if (Win)
                 {
-                    structInput.ki.wVk = 0x5b;
-                    NativeMethods.SendInput(1, ref structInput, Marshal.SizeOf(structInput));
+                    NativeMethods.SendKeyDown(0x5b);
                 }
-                structInput.ki.wVk = vk;
-                // Key down the actual key-code
-                NativeMethods.SendInput(1, ref structInput, Marshal.SizeOf(structInput));
-                // Key up the actual key-code
-                structInput.ki.dwFlags = NativeMethods.KEY_UP;
-                NativeMethods.SendInput(1, ref structInput, Marshal.SizeOf(structInput));
+
+                NativeMethods.SendKeyStroke(vk);
+
                 if (Shift)
                 {
-                    structInput.ki.wVk = 0x10;
-                    NativeMethods.SendInput(1, ref structInput, Marshal.SizeOf(structInput));
+                    NativeMethods.SendKeyUp(0x10);
                 }
                 if (Ctrl)
                 {
-                    structInput.ki.wVk = 0x11;
-                    NativeMethods.SendInput(1, ref structInput, Marshal.SizeOf(structInput));
+                    NativeMethods.SendKeyUp(0x11);
                 }
                 if (Alt)
                 {
-                    structInput.ki.wVk = 0x12;
-                    NativeMethods.SendInput(1, ref structInput, Marshal.SizeOf(structInput));
+                    NativeMethods.SendKeyUp(0x12);
                 }
                 if (Win)
                 {
-                    structInput.ki.wVk = 0x5b;
-                    NativeMethods.SendInput(1, ref structInput, Marshal.SizeOf(structInput));
+                    NativeMethods.SendKeyUp(0x5b);
                 }
+
                 opResult.StatusCode = OpStatusCode.Success;
             }
             catch (Exception ex)
@@ -180,7 +158,26 @@ namespace VmcController.AddIn.Commands
         /// Helper method to get the window handle for the main MCE shell in our session
         /// </summary>
         /// <returns></returns>
-        private IntPtr GetWindowHandle()
+        private static bool GetWindowHandleWrapper()
+        {
+            const long TIMEOUT = 500; // 500 milliseconds
+            DateTime startTime = DateTime.Now;
+
+            while (!NativeMethods.SetForegroundWindow(GetWindowHandle()))
+            {
+                if ((DateTime.Now - startTime).TotalMilliseconds > TIMEOUT)
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Helper method to get the window handle for the main MCE shell in our session
+        /// </summary>
+        /// <returns></returns>
+        private static IntPtr GetWindowHandle()
         {
             IntPtr hwnd = IntPtr.Zero;
             int mySession;
@@ -200,21 +197,21 @@ namespace VmcController.AddIn.Commands
         #region Win32 Helpers
         static class NativeMethods
         {
-            public const int INPUT_KEYBOARD = 1;
-            public const uint KEY_UP = 0x0002;
+            private const int INPUT_KEYBOARD = 1;
+            private const uint KEY_UP = 0x0002;
 
             [StructLayout(LayoutKind.Sequential)]
-            public struct KEYBDINPUT
+            private struct KEYBDINPUT
             {
                 public ushort wVk;
                 public ushort wScan;
                 public uint dwFlags;
                 public uint time;
                 public IntPtr dwExtraInfo;
-            };
+            } ;
 
             [StructLayout(LayoutKind.Sequential)]
-            public struct MOUSEINPUT
+            private struct MOUSEINPUT
             {
                 public int dx;
                 public int dy;
@@ -222,10 +219,31 @@ namespace VmcController.AddIn.Commands
                 public uint dwFlags;
                 public uint time;
                 public IntPtr dwExtraInfo;
+            };
+
+            [StructLayout(LayoutKind.Sequential)]
+            struct HARDWAREINPUT
+            {
+                uint uMsg;
+                ushort wParamL;
+                ushort wParamH;
             }
 
+            [StructLayout(LayoutKind.Explicit, Size = 28)]
+            private struct INPUT32
+            {
+                [FieldOffset(0)]
+                public int type;
+                [FieldOffset(4)]
+                MOUSEINPUT mi;
+                [FieldOffset(4)]
+                public KEYBDINPUT ki;
+                [FieldOffset(4)]
+                HARDWAREINPUT hi;
+            };           
+
             [StructLayout(LayoutKind.Explicit)]
-            public struct INPUT
+            private struct INPUT64
             {
                 [FieldOffset(0)]
                 public uint type;
@@ -233,13 +251,93 @@ namespace VmcController.AddIn.Commands
                 public MOUSEINPUT mi;
                 [FieldOffset(8)]
                 public KEYBDINPUT ki;
+                [FieldOffset(8)]
+                HARDWAREINPUT hi;
             };
 
+            public static void SendKeyStroke(ushort key)
+            {
+                SendKeyDown(key);
+                SendKeyUp(key);
+            }
+
+            public static void SendKeyDown(ushort key)
+            {
+                if (IntPtr.Size == 8)
+                {
+                    INPUT64 input64 = new INPUT64();
+                    input64.type = INPUT_KEYBOARD;
+                    input64.ki.wVk = key;
+                    input64.ki.wScan = 0;
+                    input64.ki.time = 0;
+                    input64.ki.dwFlags = 0;
+                    input64.ki.dwExtraInfo = IntPtr.Zero;
+
+                    // Key down the actual key-code
+                    SendInput64.SendInput(1, ref input64, Marshal.SizeOf(input64));
+                }
+                else
+                {
+                    INPUT32 input32 = new INPUT32();
+                    input32.type = INPUT_KEYBOARD;
+                    input32.ki.wVk = key;
+                    input32.ki.wScan = 0;
+                    input32.ki.time = 0;
+                    input32.ki.dwFlags = 0;
+                    input32.ki.dwExtraInfo = GetMessageExtraInfo();
+
+                    // Key down the actual key-code
+                    SendInput32.SendInput(1, ref input32, Marshal.SizeOf(input32));
+                }
+            }
+
+            public static void SendKeyUp(ushort key)
+            {
+                if (IntPtr.Size == 8)
+                {
+                    INPUT64 input64 = new INPUT64();
+                    input64.type = INPUT_KEYBOARD;
+                    input64.ki.wVk = key;
+                    input64.ki.wScan = 0;
+                    input64.ki.time = 0;
+                    input64.ki.dwFlags = KEY_UP;
+                    input64.ki.dwExtraInfo = IntPtr.Zero;
+
+                    // Key up the actual key-code
+                    SendInput64.SendInput(1, ref input64, Marshal.SizeOf(input64));
+                }
+                else
+                {
+                    INPUT32 input32 = new INPUT32();
+                    input32.type = INPUT_KEYBOARD;
+                    input32.ki.wVk = key;
+                    input32.ki.wScan = 0;
+                    input32.ki.time = 0;
+                    input32.ki.dwFlags = KEY_UP;
+                    input32.ki.dwExtraInfo = GetMessageExtraInfo();
+
+                    // Key up the actual key-code
+                    SendInput32.SendInput(1, ref input32, Marshal.SizeOf(input32));
+                }
+            }
+
+            private class SendInput32
+            {
+                [DllImport("user32.dll")]
+                public static extern uint SendInput(uint nInputs, ref INPUT32 pInputs, int cbSize);
+            }
+
+            private class SendInput64
+            {
+                [DllImport("user32.dll")]
+                public static extern uint SendInput(uint nInputs, ref INPUT64 pInputs, int cbSize);
+            }
+
             [DllImport("user32.dll")]
-            public static extern uint SendInput(uint nInputs, ref INPUT pInputs, int cbSize);
+            internal static extern IntPtr GetMessageExtraInfo();
 
             // Activate an application window.
-            [DllImport("USER32.DLL")]
+            [DllImport("user32.dll")]
             public static extern bool SetForegroundWindow(IntPtr hWnd);
         }
         #endregion

@@ -18,3 +18,13 @@ C:\Temp\MceController\VmcServices\bin\Release\VmcController.Services.pdb
 C:\Temp\MceController\VmcServices\obj\Release\ResolveAssemblyReference.cache
 C:\Temp\MceController\VmcServices\obj\Release\VmcController.Services.dll
 C:\Temp\MceController\VmcServices\obj\Release\VmcController.Services.pdb
+C:\Data\VmcController\trunk\Win7\VmcServices\bin\Release\VmcController.Services.dll
+C:\Data\VmcController\trunk\Win7\VmcServices\bin\Release\VmcController.Services.pdb
+C:\Data\VmcController\trunk\Win7\VmcServices\obj\Release\ResolveAssemblyReference.cache
+C:\Data\VmcController\trunk\Win7\VmcServices\obj\Release\VmcController.Services.dll
+C:\Data\VmcController\trunk\Win7\VmcServices\obj\Release\VmcController.Services.pdb
+C:\Temp\mce\VmcServices\bin\Release\VmcController.Services.dll
+C:\Temp\mce\VmcServices\bin\Release\VmcController.Services.pdb
+C:\Temp\mce\VmcServices\obj\Release\ResolveAssemblyReference.cache
+C:\Temp\mce\VmcServices\obj\Release\VmcController.Services.dll
+C:\Temp\mce\VmcServices\obj\Release\VmcController.Services.pdb
