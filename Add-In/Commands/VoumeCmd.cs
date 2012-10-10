@@ -33,7 +33,7 @@ namespace VmcController.AddIn.Commands
         /// <returns></returns>
         public string ShowSyntax()
         {
-            return "<0-50|Up|Down|Mute|UnMute>";
+            return "<0-50|Up|Down|Mute|UnMute|Get>";
         }
 
         /// <summary>
@@ -55,6 +55,11 @@ namespace VmcController.AddIn.Commands
                     AddInHost.Current.MediaCenterEnvironment.AudioMixer.Mute = true;
                 else if (param.Equals("UnMute", StringComparison.InvariantCultureIgnoreCase))
                     AddInHost.Current.MediaCenterEnvironment.AudioMixer.Mute = false;
+                else if (param.Equals("Get", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    opResult.StatusCode = OpStatusCode.Ok;
+                    opResult.AppendFormat("volume={0}", (int)(AddInHost.Current.MediaCenterEnvironment.AudioMixer.Volume / 1310.7));
+                }
                 else
                 {
                     int desiredLevel = int.Parse(param);
@@ -64,7 +69,7 @@ namespace VmcController.AddIn.Commands
                         return opResult;
                     }
 
-                    int volume = (int)( AddInHost.Current.MediaCenterEnvironment.AudioMixer.Volume / 1310.7 );
+                    int volume = (int)(AddInHost.Current.MediaCenterEnvironment.AudioMixer.Volume / 1310.7);
                     for (int level = volume; level > desiredLevel; level--)
                         AddInHost.Current.MediaCenterEnvironment.AudioMixer.VolumeDown();
 
