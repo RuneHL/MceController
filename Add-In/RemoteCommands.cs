@@ -87,6 +87,7 @@ namespace VmcController.AddIn
             m_commands.Add("goto", new NavigateToPage());
             m_commands.Add("announce", new AnnounceCmd());
             m_commands.Add("run-macro", new MacroCmd());
+            m_commands.Add("suspend", new SuspendCmd());
 
             m_commands.Add("=== Media Experience Commands: ==========", null);
             m_commands.Add("fullscreen", new FullScreenCmd());
