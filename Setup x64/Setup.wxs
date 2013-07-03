@@ -124,7 +124,7 @@
 				<File Id="MediaSink_dll"
 							Name="VmcController.Status.dll"
 							KeyPath="yes"
-							Source="..\\Status\bin\Release\VmcController.Status.dll"
+							Source="..\Status\bin\Release\VmcController.Status.dll"
 							Checksum="yes"
 							Vital="yes"
 							Assembly=".net" />
@@ -154,7 +154,7 @@
 				<File Id="Interop_WMPLib.dll"
 							Name="Interop.WMPLib.dll"
 							KeyPath="yes"
-							Source="..\Add-In\bin\Release\Interop.WMPLib.dll"
+							Source="..\binaries\Interop.WMPLib.dll"
 							Checksum="yes"
 							Vital="yes"
 							Assembly=".net"/>
