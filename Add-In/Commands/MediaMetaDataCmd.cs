@@ -24,6 +24,7 @@ using System.Text;
 using System.Collections.Generic;
 using Microsoft.MediaCenter;
 using Microsoft.MediaCenter.Hosting;
+using System.Reflection;
 
 namespace VmcController.AddIn.Commands
 {
@@ -50,11 +51,11 @@ namespace VmcController.AddIn.Commands
         /// <returns></returns>
         public OpResult Execute(string param)
         {
+            // Now try to read again
             OpResult opResult = new OpResult();
-
             try
             {
-                if (AddInHost.Current.MediaCenterEnvironment.MediaExperience == null)
+                if (AddInModule.getMediaExperience() == null)
                 {
                     opResult.StatusCode = OpStatusCode.BadRequest;
                     opResult.AppendFormat("No media playing");

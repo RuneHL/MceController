@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<?define Property_ProductVersion = "1.0.0.0" ?>
-<?define Property_ProductCode = "941d39c1-e9eb-41f7-881c-3313725340a4" ?>
-<?define Property_UpgradeCode = "e97b6ad4-5870-442f-8837-aa2ce19b1b31" ?>
+<?define Property_ProductVersion = "1.5.0.0" ?>
+<?define Property_ProductCode = "86989cf7-e48a-428d-af21-ab36fe9d3d80" ?>
+<?define Property_UpgradeCode = "e97b6ad4-5870-442F-8837-aa2ce19b1b31" ?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi"
-		 xmlns:complus="http://schemas.microsoft.com/wix/ComPlusExtension">
+		 xmlns:complus="http://schemas.microsoft.com/wix/ComPlusExtension"
+     xmlns:fire="http://schemas.microsoft.com/wix/FirewallExtension">
 
 	<Product Id="$(var.Property_ProductCode)"
 					 UpgradeCode="$(var.Property_UpgradeCode)"
@@ -17,25 +18,13 @@
 						 InstallerVersion="200"
 						 Compressed="yes" />
 
-		<Upgrade Id="$(var.Property_UpgradeCode)">
-			<UpgradeVersion Minimum="$(var.Property_ProductVersion)"
-											OnlyDetect="yes"
-											Property="NEWERVERSIONDETECTED" />
-			<UpgradeVersion Minimum="0.0.0.0"
-											IncludeMinimum="yes"
-											Maximum="$(var.Property_ProductVersion)"
-											IncludeMaximum="no"
-											Property="OLDERVERSIONBEINGUPGRADED" />
-		</Upgrade>
+    <MajorUpgrade DowngradeErrorMessage="A later version of [ProductName] is already installed. Setup will now exit." />
 
 		<Binary Id="License.txt"
 						SourceFile="..\setup\License.txt" />
 
 		<Binary Id="LicenseAccessible.txt"
 						SourceFile="..\setup\LicenseAccessible.txt" />
-
-		<CustomAction Id="CA_BlockOlderVersionInstall"
-									Error="!(loc.LaunchCondition_LaterVersion)" />
 
 		<CustomAction Id="CA_ErrWrongWindowsVersion"
 									Error="!(loc.LaunchCondition_WrongOSVersion)" />
@@ -145,6 +134,12 @@
 				</RegistryKey>
 			</Component>
 
+      <!-- Add Media Center Extensibility Host & Media Center Media Status Aggregator Service to firewall -->
+      <Component Id="FirewallEntries" Guid="B6872EA7-2B43-4BA6-B0C9-0E45F60D9745">
+        <fire:FirewallException Id="MCEHF" Name="Media Center Extensibility Host" IgnoreFailure="no" Program="%windir%\ehome\ehexthost.exe" Profile="private" Scope="any"/>
+        <fire:FirewallException Id="MCMSASF" Name="Media Center Media Status Aggregator Service" IgnoreFailure="no" Program="%windir%\ehome\ehmsas.exe" Profile="private" Scope="any"/>
+      </Component>
+
 		</DirectoryRef>
 
 		<DirectoryRef Id="APPROOTDIRECTORY">
@@ -168,6 +163,18 @@
 							Name="VmcController.Add-In.dll"
 							KeyPath="yes"
 							Source="..\Add-In\bin\Release\VmcController.Add-In.dll"
+							Checksum="yes"
+							Vital="yes"
+							Assembly=".net"/>
+			</Component>
+      
+      <Component Id="Newtonsoft.Json.dll"
+								 Guid="5711a542-a976-4eb5-9612-152770ad8f0f"
+								 DiskId="1">
+				<File Id="Newtonsoft.Json.dll"
+							Name="Newtonsoft.Json.dll"
+							KeyPath="yes"
+							Source="..\packages\Newtonsoft.Json.5.0.6\lib\net35\Newtonsoft.Json.dll"
 							Checksum="yes"
 							Vital="yes"
 							Assembly=".net"/>
@@ -201,10 +208,11 @@
 			<ComponentRef Id="VmcController_AddIn.dll" />
 			<ComponentRef Id="Interop_WMPLib.dll" />
 			<ComponentRef Id="MediaSink_dll" />
-			<!--<ComponentRef Id="MSASInterop_dll" />-->
+			<ComponentRef Id="Newtonsoft.Json.dll" />
 			<ComponentRef Id="Registration.xml" />
 			<ComponentRef Id="MediaSinkRegistryEntries" />
 			<ComponentRef Id="ExtenderRegistryEntries" />
+      <ComponentRef Id="FirewallEntries" />
 		</Feature>
 
 		<Media Id="1"
@@ -256,12 +264,7 @@
 									Impersonate="no"/>
 
 		<InstallExecuteSequence>
-			<Custom Action="CA_BlockOlderVersionInstall"
-							After="FindRelatedProducts">
-				<![CDATA[NEWERVERSIONDETECTED]]>
-			</Custom>
 
-			<RemoveExistingProducts After="InstallFinalize" />
 			<LaunchConditions After="AppSearch"/>
 
 			<Custom Action="CA_ErrWrongWindowsVersion"
@@ -311,11 +314,6 @@
 		</InstallExecuteSequence>
 
 		<InstallUISequence>
-			<Custom Action="CA_BlockOlderVersionInstall"
-							After="FindRelatedProducts">
-				<![CDATA[NEWERVERSIONDETECTED]]>
-			</Custom>
-
 			<Custom Action="CA_ErrWrongWindowsVersion"
 							Before="CostInitialize">
 				<![CDATA[(NOT VersionNT >= 601 OR NOT REGISTERMCEAPP) AND NOT Installed]]>
